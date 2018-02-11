@@ -46,12 +46,12 @@
 ;; Thanks:
 ;; Arcady Genkin <antipode@thpoon.com>
 
-
 ;;; History:
 ;; 2017-03-08
 ;;     * sondr3
 ;;         Fixed some strange indentation and hanging parenthesis'
 ;;     * yangyingchao
+;;         Updated `sql-indent-level-delta' logic
 ;;         Updated `sql-indent-first-column-regexp' syntax
 ;; 2009-03-22*
 ;;     * mhenry
