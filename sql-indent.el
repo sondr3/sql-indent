@@ -47,12 +47,16 @@
 ;; Arcady Genkin <antipode@thpoon.com>
 
 ;;; History:
-;; 2017-03-08
+;; 2018-02-11
 ;;     * sondr3
 ;;         Fixed some strange indentation and hanging parenthesis'
+;; 2017-03-08
 ;;     * yangyingchao
 ;;         Updated `sql-indent-level-delta' logic
 ;;         Updated `sql-indent-first-column-regexp' syntax
+;; 2017-01-15
+;;     * davidshepherd7
+;;         Made it into a minor mode instead of a hook
 ;; 2009-03-22*
 ;;     * mhenry
 ;;         Added `sql-indent-buffer' for efficient full buffer processing.
@@ -172,10 +176,19 @@ Return a list containing the level change and the previous indentation."
     (if (> (- (point-max) pos) (point))
         (goto-char (- (point-max) pos)))))
 
-(add-hook 'sql-mode-hook
-	  (function (lambda ()
-		      (make-local-variable 'indent-line-function)
-		      (setq indent-line-function 'sql-indent-line))))
+
+(define-minor-mode sql-indent-mode
+  "A minor mode enabling more intelligent sql indentation"
+  :lighter " SIN"
+  :global nil
+
+  ;; body
+  (when sql-indent-mode
+    (make-local-variable 'indent-line-function)
+    (setq indent-line-function 'sql-indent-line))
+
+  (unless sql-indent-mode
+    (kill-local-variable 'indent-line-function)))
 
 (provide 'sql-indent)
 
