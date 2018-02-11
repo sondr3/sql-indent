@@ -48,12 +48,15 @@
 
 
 ;;; History:
+;; 2017-03-08
+;;     * yangyingchao
+;;         Updated `sql-indent-first-column-regexp' syntax
 ;; 2009-03-22*
 ;;     * mhenry
-;;             Added `sql-indent-buffer' for efficient full buffer processing.
-;;             Modified `sql-indent' to be savvy to comments and strings.
-;;             Removed "and", "or" and "exists" from `sql-indent-first-column-regexp'
-;;             Added "create", "drop" and "truncate" to `sql-indent-first-column-regexp'
+;;         Added `sql-indent-buffer' for efficient full buffer processing.
+;;         Modified `sql-indent' to be savvy to comments and strings.
+;;         Removed "and", "or" and "exists" from `sql-indent-first-column-regexp'
+;;         Added "create", "drop" and "truncate" to `sql-indent-first-column-regexp'
 
 ;;; Code:
 
@@ -63,13 +66,12 @@
 (require 'regexp-opt)
 
 (defcustom sql-indent-first-column-regexp
-  (concat "\\(^\\s-*" (regexp-opt '(
-				    "select" "update" "insert" "delete"
-				    "union" "intersect"
-				    "from" "where" "into" "group" "having" "order"
-				    "set"
-				    "create" "drop" "truncate"
-				    "--") t) "\\(\\b\\|\\s-\\)\\)\\|\\(^```$\\)")
+  (rx (*? space)
+      (or "select" "update" "insert" "delete" "union" "intersect" "from"
+          "where" "into" "group" "having" "order" "set"
+          "use" "alter" "create" "drop" "truncate" "begin" "else"
+          "end" ")" "delimiter" "source")
+      (or eol space))
   "Regexp matching keywords relevant for indentation.
 The regexp matches lines which start SQL statements and it matches lines
 that should be indented at the same column as the start of the SQL
